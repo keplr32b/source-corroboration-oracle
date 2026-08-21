@@ -1,0 +1,7 @@
+{
+  "description": "Example establish payload after allow_host for example.com and example.org",
+  "allow_hosts": ["example.com", "example.org"],
+  "question": "What organization is associated with the domain example.com according to these pages?",
+  "urls": "https://example.com,https://www.example.org",
+  "notes": "Replace with real allowlisted news/docs hosts for production demos. Expect plurality value related to Example Domain / IANA documentation style pages."
+}
