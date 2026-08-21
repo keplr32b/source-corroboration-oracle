@@ -1,0 +1,2 @@
+# Local helper tests need only stdlib.
+# For GenLayer Direct / gltest runs, use the GenLayer tooling pins from docs.genlayer.com
