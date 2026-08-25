@@ -1,4 +1,6 @@
-## Source Corroboration Covenant- A standalone GenLayer Intelligent Contract primitive that records a fact only when independent public HTTPS sources corroborate it under consensus.
+# Source Corroboration Covenant
+
+A standalone GenLayer Intelligent Contract primitive that records a fact **only when independent public HTTPS sources corroborate it under consensus**.
 
 Insufficient corroboration, fetch failure patterns that drag the ratio below threshold, host violations, and validator disagreement all **fail closed** — no state is written.
 
@@ -29,7 +31,18 @@ A single backend reading one URL is a single point of trust. This covenant makes
 
 Do **not** use this when a single signed API already returns a deterministic field you can verify with `strict_eq`. Use it when the answer lives in natural-language public pages and you need shared, replay-safe agreement that multiple sources support the same claim.
 
-## Project Structure
+## Tests
+python tests/test_source_corroboration_covenant.py
+
+Structural checks cover host parsing, ratio math, threshold fail-closed, JSON helpers, and repo markers. Live consensus evidence is in verification/studionet-e2e.md.
+
+## Limitations
+- Public pages can change or disappear; ratios are point-in-time under consensus.
+- The plurality value is a short phrase, not a legal finding or price feed SLA.
+- Owner controls the host allowlist — treat owner as a governance role.
+- Student is a development network, not a production SLA.
+
+## Project Structure 
 
 ```
 contracts/source_corroboration_covenant.py   # Intelligent Contract
@@ -41,8 +54,8 @@ README.md
 LICENSE
 requirements.txt
 .gitignore
-
 ```
+
 ## How it works
 
 1. **Owner** registers allowed hosts (`allow_host`).
@@ -81,12 +94,12 @@ No free-form rationale or model prose is stored.
 
 ## Fail-closed behavior
 
-- Host not allowlisted → revert before fetch  
-- Non-HTTPS / IP literal / localhost → revert  
-- Duplicate URL → revert  
-- Comparative disagreement → consensus failure (no write)  
-- `ratio_milli < threshold` → revert after consensus (`insufficient corroboration`)  
-- Empty question / wrong URL count → revert  
+- Host not allowlisted → revert before fetch
+- Non-HTTPS / IP literal / localhost → revert
+- Duplicate URL → revert
+- Comparative disagreement → consensus failure (no write)
+- `ratio_milli < threshold` → revert after consensus (`insufficient corroboration`)
+- Empty question / wrong URL count → revert
 
 Fetch failure on a single source does **not** abort the transaction; that source simply does not count toward agreement.
 
