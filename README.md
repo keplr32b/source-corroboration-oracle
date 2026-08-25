@@ -2,7 +2,7 @@
 
 A standalone GenLayer Intelligent Contract primitive that records a fact **only when independent public HTTPS sources corroborate it under consensus**.
 
-Insufficient corroboration, fetch failure patterns that drag the ratio below threshold, host violations, and validator disagreement all **fail closed** — no state is written.
+Insufficient corroboration, fetch failure patterns that drag the ratio below threshold, host violations, and validator disagreement all **fail closed** - no state is written.
 
 Other contracts and apps integrate via `read_corroboration` / `latest_corroboration`.
 
@@ -27,7 +27,7 @@ Constructor used: `threshold_milli=700`, `tolerance_milli=150`.
 ## How it works
 
 1. **Owner** registers allowed hosts (`allow_host`).
-2. Anyone calls `establish(question, urls)` with 2–8 comma-separated HTTPS URLs.
+2. Anyone calls `establish(question, urls)` with 2-8 comma-separated HTTPS URLs.
 3. Every URL host must be allowlisted; IP literals, localhost, and non-HTTPS are rejected.
 4. Leader and validators independently fetch each source (fetch failures become non-agreeing evidence, not aborts).
 5. Comparative consensus requires agreement on value meaning and `ratio_milli` within tolerance.
@@ -39,7 +39,7 @@ Constructor used: `threshold_milli=700`, `tolerance_milli=150`.
 1. Call `allow_host` for each evidence host (e.g. `example.com`, `www.example.org`).
 2. Call `establish(question, "https://a/...,https://b/...")` with 2–8 allowlisted HTTPS URLs.
 3. On success, `latest_corroboration()` returns the sealed fact JSON.
-4. On insufficient corroboration the transaction reverts — state unchanged.
+4. On insufficient corroboration the transaction reverts - state unchanged.
 
 ## Public API
 
@@ -94,6 +94,6 @@ Structural checks cover host parsing, ratio math, threshold fail-closed, JSON he
 
 - Public pages can change or disappear; ratios are point-in-time snapshot checks under consensus.
 - The plurality value is a short phrase, not a legal finding or price feed SLA.
-- Owner controls the host allowlist — treat owner as a governance role.
+- Owner controls the host allowlist - treat owner as a governance role.
 - Studionet is a development network, not a production SLA guarantee.
 
