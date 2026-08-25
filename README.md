@@ -45,8 +45,8 @@ Constructor used: `threshold_milli=700`, `tolerance_milli=150`.
 
 | Method | Type | Description |
 |--------|------|-------------|
-| `allow_host(host)` | write | Owner only — add HTTPS host to allowlist |
-| `disallow_host(host)` | write | Owner only — disable host |
+| `allow_host(host)` | write | Owner only - add HTTPS host to allowlist |
+| `disallow_host(host)` | write | Owner only - disable host |
 | `establish(question, urls)` | write | Corroborate and append fact (or revert) |
 | `read_corroboration(fact_id)` | view | Integration JSON for one fact |
 | `latest_corroboration()` | view | Integration JSON for latest fact |
