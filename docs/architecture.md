@@ -1,4 +1,4 @@
-# Architecture — Source Corroboration Covenant
+# Architecture - Source Corroboration Covenant
 
 ## Problem
 
@@ -6,10 +6,10 @@ On-chain systems often need a shared answer to a question whose evidence lives o
 
 ## State
 
-- `owner` — allowlist admin  
-- `allowed_hosts: TreeMap[str, bool]` — HTTPS hosts permitted as evidence  
-- `facts: DynArray[Fact]` — append-only accepted corroborations  
-- `latest` — index of last accepted fact  
+- `owner` - allowlist admin  
+- `allowed_hosts: TreeMap[str, bool]` - HTTPS hosts permitted as evidence  
+- `facts: DynArray[Fact]` - append-only accepted corroborations  
+- `latest` - index of last accepted fact  
 - `threshold_milli` / `tolerance_milli` — acceptance and comparative tolerance  
 
 `Fact` holds: question, value, ratio_milli, sources_count, agreeing_count, manifest_hash.
