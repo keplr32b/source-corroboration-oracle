@@ -1,29 +1,33 @@
-# Source Corroboration Covenant
-
-A standalone GenLayer Intelligent Contract primitive that records a fact **only when independent public HTTPS sources corroborate it under consensus**.
+## Source Corroboration Covenant- A standalone GenLayer Intelligent Contract primitive that records a fact only when independent public HTTPS sources corroborate it under consensus.
 
 Insufficient corroboration, fetch failure patterns that drag the ratio below threshold, host violations, and validator disagreement all **fail closed** — no state is written.
 
 Other contracts and apps integrate via `read_corroboration` / `latest_corroboration`.
+
+## Live deployment (Studionet)
+
+| Item | Value |
+|------|--------|
+| Network | Studionet (chain id `61999`) |
+| Contract | [`0x00722cb74ec93f30572b01E6587A2F7Af86447DD`](https://explorer-studio.genlayer.com/address/0x00722cb74ec93f30572b01E6587A2F7Af86447DD) |
+| Deploy tx | [`0xc804f9eba16d75f7e230a573161c8ee8e0ffdf1e04b164faaaf91c17181ad63a`](https://explorer-studio.genlayer.com/tx/0xc804f9eba16d75f7e230a573161c8ee8e0ffdf1e04b164faaaf91c17181ad63a) |
+| Establish SUCCESS | [`0xd29bdcfd8ca803780a00ebc724721ea5f183e415cd00cda47e4f94ba5424a055`](https://explorer-studio.genlayer.com/tx/0xd29bdcfd8ca803780a00ebc724721ea5f183e415cd00cda47e4f94ba5424a055) |
+| Full E2E matrix | [`verification/studionet-e2e.md`](verification/studionet-e2e.md) |
+
+Constructor used: `threshold_milli=700`, `tolerance_milli=150`.
+
+### How to reproduce
+
+1. Call `allow_host` for each evidence host (e.g. `example.com`, `www.example.org`).
+2. Call `establish(question, "https://a/...,https://b/...")` with 2–8 allowlisted HTTPS URLs.
+3. On success, `latest_corroboration()` returns the sealed fact JSON.
+4. On insufficient corroboration the transaction reverts — state unchanged.
 
 ## Why GenLayer
 
 A single backend reading one URL is a single point of trust. This covenant makes validators independently fetch the same caller-named sources, extract a plurality value, and agree on both the **value** and the **corroboration ratio**. The write only commits when the ratio clears a configured threshold.
 
 Do **not** use this when a single signed API already returns a deterministic field you can verify with `strict_eq`. Use it when the answer lives in natural-language public pages and you need shared, replay-safe agreement that multiple sources support the same claim.
-
-## Live deployment
-
-Deploy on GenLayer Studionet (chain id `61999`) from [studio.genlayer.com](https://studio.genlayer.com) using `contracts/source_corroboration_covenant.py`.
-
-After deploy:
-
-1. Call `allow_host` for each evidence host (e.g. `example.com`, `reuters.com`).
-2. Call `establish(question, "https://a/...,https://b/...")` with 2–8 allowlisted HTTPS URLs.
-3. On success, `latest_corroboration()` returns the sealed fact JSON.
-4. On insufficient corroboration the transaction reverts — state unchanged.
-
-Record deploy tx, `establish` txs, and readbacks in `verification/studionet-e2e.md`.
 
 ## How it works
 
@@ -48,8 +52,6 @@ Record deploy tx, `establish` txs, and readbacks in `verification/studionet-e2e.
 | `is_host_allowed(host)` | view | Allowlist check |
 | `get_threshold_milli()` / `get_tolerance_milli()` | view | Config |
 | `get_owner()` | view | Owner address |
-
-Constructor: `threshold_milli` (default 700), `tolerance_milli` (default 150).
 
 ## Consensus binding
 
