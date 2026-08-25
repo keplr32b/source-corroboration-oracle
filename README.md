@@ -29,6 +29,20 @@ A single backend reading one URL is a single point of trust. This covenant makes
 
 Do **not** use this when a single signed API already returns a deterministic field you can verify with `strict_eq`. Use it when the answer lives in natural-language public pages and you need shared, replay-safe agreement that multiple sources support the same claim.
 
+## Project Structure
+
+```
+contracts/source_corroboration_covenant.py   # Intelligent Contract
+tests/                                       # Structural unit tests
+docs/architecture.md                         # Design + binding table
+samples/                                     # Example establish payload
+verification/                                # Studionet E2E matrix
+README.md
+LICENSE
+requirements.txt
+.gitignore
+
+```
 ## How it works
 
 1. **Owner** registers allowed hosts (`allow_host`).
