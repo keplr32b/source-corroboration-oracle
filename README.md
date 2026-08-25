@@ -6,6 +6,12 @@ Insufficient corroboration, fetch failure patterns that drag the ratio below thr
 
 Other contracts and apps integrate via `read_corroboration` / `latest_corroboration`.
 
+## Why GenLayer
+
+A single backend reading one URL is a single point of trust. This covenant makes validators independently fetch the same caller-named sources, extract a plurality value, and agree on both the **value** and the **corroboration ratio**. The write only commits when the ratio clears a configured threshold.
+
+Do **not** use this when a single signed API already returns a deterministic field you can verify with `strict_eq`. Use it when the answer lives in natural-language public pages and you need shared, replay-safe agreement that multiple sources support the same claim.
+
 ## Live deployment (Studionet)
 
 | Item | Value |
@@ -18,19 +24,6 @@ Other contracts and apps integrate via `read_corroboration` / `latest_corroborat
 
 Constructor used: `threshold_milli=700`, `tolerance_milli=150`.
 
-### How to reproduce
-
-1. Call `allow_host` for each evidence host (e.g. `example.com`, `www.example.org`).
-2. Call `establish(question, "https://a/...,https://b/...")` with 2–8 allowlisted HTTPS URLs.
-3. On success, `latest_corroboration()` returns the sealed fact JSON.
-4. On insufficient corroboration the transaction reverts — state unchanged.
-
-## Why GenLayer
-
-A single backend reading one URL is a single point of trust. This covenant makes validators independently fetch the same caller-named sources, extract a plurality value, and agree on both the **value** and the **corroboration ratio**. The write only commits when the ratio clears a configured threshold.
-
-Do **not** use this when a single signed API already returns a deterministic field you can verify with `strict_eq`. Use it when the answer lives in natural-language public pages and you need shared, replay-safe agreement that multiple sources support the same claim.
-
 ## How it works
 
 1. **Owner** registers allowed hosts (`allow_host`).
@@ -40,6 +33,13 @@ Do **not** use this when a single signed API already returns a deterministic fie
 5. Comparative consensus requires agreement on value meaning and `ratio_milli` within tolerance.
 6. Deterministic threshold check: if `ratio_milli < threshold_milli`, the call **reverts** (fail-closed).
 7. On success, a `Fact` is appended to an append-only archive.
+
+## How to reproduce
+
+1. Call `allow_host` for each evidence host (e.g. `example.com`, `www.example.org`).
+2. Call `establish(question, "https://a/...,https://b/...")` with 2–8 allowlisted HTTPS URLs.
+3. On success, `latest_corroboration()` returns the sealed fact JSON.
+4. On insufficient corroboration the transaction reverts — state unchanged.
 
 ## Public API
 
@@ -80,7 +80,7 @@ Fetch failure on a single source does **not** abort the transaction; that source
 
 ## Integration pattern
 
-```text
+```text```
 status_json = covenant.latest_corroboration()
 # parse value + ratio_milli
 # only release funds / update registry if ratio_milli >= your policy floor
